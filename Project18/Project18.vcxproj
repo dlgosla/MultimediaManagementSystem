@@ -140,12 +140,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventType.h" />
+    <ClInclude Include="FC.h" />
     <ClInclude Include="SortedList.h" />
     <ClInclude Include="ItemType.h" />
+    <ClInclude Include="UnsortedList.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="SortedList.cpp" />
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="EventType.cpp" />
+    <ClCompile Include="FC.cpp" />
     <ClCompile Include="ItemType.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

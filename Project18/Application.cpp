@@ -1,12 +1,197 @@
-
 #include "Application.h"
+#include "ItemType.h"
+#include "SortedList.h"
 
-int Application::ReplaceFile()
+int Application::Add_FC() //콘텐츠를 선정하여 FC_list에 추가
 {
-	ReadDataFromFile();
-	ReplaceContents();
-	WriteDataToFile();
-	return 1;
+	/*
+	* pre: m_List가 정의돼 있어야 한다. 이미 FC리스트에 저장돼 있는 컨텐츠를 입력하면 안된다.
+	*	전체 컨텐츠 목록중에 해당 FC가 있어야한다.
+	* post: 일치하는 데이터를 찾고 성공하면 1 실패하면 0을 리턴
+	*/
+	ItemType item;
+
+	item.SetNameFromKB();	//name를 입력받는다
+	if (m_List.Retrieve_BinaryS(item))	//이진탐색에 성공했다면
+	{
+		cout << "<============I FOUND ITEM !==========>" << endl;
+		FC temp;
+		int count;
+		cout << "이 콘텐츠를 본 횟수: ";
+		cin >> count;
+		temp.setRecord(item.GetName(), count);
+		fc_list.Add(temp);
+		unsortedFC.Add(temp);
+		cout << "<============I 저장완료 !==========>" << endl;
+		return 1;
+	}
+	//발견 못할시
+	cout << "<========I CAN'T FIND ITEM !==========>" << endl;
+	return 0;
+}
+
+void Application::Delete_FC_list() //입력된 FC를 FC_list에서 삭제
+{
+	string name;
+	cout << "삭제할 FC의 이름: ";
+	cin >> name;
+	FC temp;
+	temp.setRecord(name);
+	fc_list.Delete(temp);
+	unsortedFC.Delete(temp);
+}
+
+void Application::Display_FC_list() //FC_list에 들어있는 정보를 화면에 출력
+{
+	fc_list.DisplayRecord();
+}
+
+
+void Application::Display_Detail_FC()// 특정 FC의 자세한 정보(master list에 저장된 정보)를 화면에 출력
+{
+	string name;
+	cout << "FC의 자세한 정보를 출력하는 함수입니다 ";
+	SearchByName_BinaryS();
+}
+
+void Application::runFC()
+{
+	while (1) {
+		cout << "=======================" << endl;
+		cout << "1. Add_FC " << endl;
+		cout << "2. Delete_FC: " << endl;
+		cout << "3.Display_FC_list" << endl;
+		cout << "4. Display_Detail_FC: " << endl;
+		cout << "5. Rearrange_FC" << endl;
+		cout << "이외의 숫자: exit" << endl;
+
+		cout << "=========================" << endl;
+
+		int command;
+		cout << ">> ";
+		cin >> command;
+		switch (command)
+		{
+		case 1:
+			Add_FC();
+			break;
+		case 2:
+			Delete_FC_list();
+			break;
+		case 3:
+			Display_FC_list();
+			break;
+		case 4:
+			Display_Detail_FC();
+			break;
+		case 5:
+			Rearrange_FC();
+		default:
+			return;
+			break;
+		}
+	}
+}
+
+void Application::run1()
+{
+
+	while (1) {
+		cout << "=======================" << endl;
+		cout << "1. 이벤트 메뉴" << endl;
+		cout << "2. FC 메뉴" << endl;
+		cout << "3. 일반 메뉴" << endl;
+		cout << "=========================" << endl;
+
+		int command;
+		cout << ">> ";
+		cin >> command;
+		switch (command)
+		{
+		case 1:
+			runEvent();
+			break;
+		case 2:
+			runFC();
+			break;
+		case 3:
+			Run();
+			break;
+		default:
+			return;
+			break;
+		}
+	}
+}
+
+
+void Application::runEvent() {
+	while (1) {
+		cout << "=======================" << endl;
+		cout << "1. 이벤트 추가" << endl;
+		cout << "2. 이벤트 삭제" << endl;
+		cout << "3. 이벤트 retrieve" << endl;
+		cout << "4. 이벤트 출력" << endl;
+		cout << "이외의 숫자:exit" << endl;
+		cout << "=========================" << endl;
+
+		int command;
+		cout << ">> ";
+		cin >> command;
+		switch (command)
+		{
+		case 1:
+			cout << "해당 이벤트에 들어갈 콘텐츠 추가" << endl;
+			event.Add();
+			break;
+		case 2:
+			event.Delete();
+			break;
+		case 3:
+			event.Retrieve();
+			break;
+		case 4:
+			event.printRecord();
+			break;
+		default:
+			return;
+			break;
+		}
+	}
+}
+
+
+void Application::Rearrange_FC() //키보드로부터 조건을 입력받아서 FC의 보는 순서(들어온 순, 이름 순, 자주보는 순, 등)를 바꾼다.
+{
+
+	while (1) {
+		cout << "보는 순서를 입력하세요: " << endl;
+		cout << "1. 이름순" << endl;
+		cout << "2. 들어온 순" << endl;
+		cout << "3. 자주보는 순" << endl;
+		int command;
+		cout << ">>";
+		cin >> command;
+
+		switch (command)
+		{
+		case 1:
+			cout << "이름 순 " << endl;
+			fc_list.DisplayRecord();
+			break;
+
+		case 2:
+			cout << " 들어온 순" << endl;
+			unsortedFC.DisplayRecord();
+			break;
+		case 3:
+			cout << "자주보는 순 " << endl;
+			unsortedFC.DisplayRecord();
+			break;
+		default:
+			return;
+		}
+	}
 }
 
 int Application::SearchByName_BinaryS()
@@ -176,7 +361,7 @@ void Application::Run()
 			WriteDataToFile();
 			break;
 		case 11:
-			ReplaceFile();
+			
 			break;
 		case 0:
 			return;

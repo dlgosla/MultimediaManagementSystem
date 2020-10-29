@@ -5,5 +5,5 @@
 int main()
 {
 	Application app;
-	app.Run();
+	app.run1();
 }
