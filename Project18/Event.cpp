@@ -1,36 +1,66 @@
 #include "Event.h"
 
+Event::~Event() {}
+
+int Event::getCountOfEvent()
+{
+	return countOfEvent;
+}
+void Event::replace(EventType item)
+{
+	contentsList.Replace(item);
+}
+
+bool Event::operator>(Event item)
+{
+	return (this->getEventName() > item.getEventName());
+}	//return 1 if this.id > data.id, 0 if not.
+
+// Compare two item types by item id.
+bool Event::operator==(Event item)
+{
+	return (this->getEventName() == item.getEventName());
+}
+
+Event::Event() {
+	//	contentsList = new string[MAXSIZE];
+	eventName = "";
+	description = "";
+	countOfEvent = 0;
+}
+
+string  Event::getEventName() {
+	return eventName;
+}
+
+
 void Event::setRecord(string e_name, string desc, int count)
 {
 	eventName = e_name;
 	description = desc;
 	countOfEvent = count;
 }
-void Event::printRecord()
+void Event::printRecord(SortedList<ItemType>& master)
 {
-	eventList.DisplayRecord();
+
+	contentsList.DisplayRecord(master);
+
 }
 
-int Event::Add()
+int Event::Add(EventType e)
 {
-	EventType e;
-	e.SetRecordFromKB();
+	contentsList.Add(e);
 	countOfEvent++;
-	eventList.Add(e);
 	return 1;
-	
+
 }
-int Event::Delete()
+int Event::Delete(EventType e)
 {
-	EventType e;
-	e.SetNameFromKB();
-	eventList.Delete(e);
+	contentsList.Delete(e);
 	countOfEvent--;
 	return 1;
 }
-int Event::Retrieve()
+int Event::Retrieve(EventType e)
 {
-	EventType e;
-	e.SetNameFromKB();
-	return eventList.Retrieve_SeqS(e);
+	return contentsList.Retrieve(e);
 }

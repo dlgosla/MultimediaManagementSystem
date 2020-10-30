@@ -139,21 +139,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Album.h" />
+    <ClInclude Include="AlbumType.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventType.h" />
     <ClInclude Include="FC.h" />
+    <ClInclude Include="People.h" />
+    <ClInclude Include="PeopleType.h" />
+    <ClInclude Include="SortedLinkedList.h" />
     <ClInclude Include="SortedList.h" />
     <ClInclude Include="ItemType.h" />
     <ClInclude Include="UnsortedList.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Album.cpp" />
+    <ClCompile Include="AlbumType.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventType.cpp" />
     <ClCompile Include="FC.cpp" />
     <ClCompile Include="ItemType.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PeopleType.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

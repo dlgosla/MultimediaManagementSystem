@@ -36,6 +36,21 @@
     <ClInclude Include="UnsortedList.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="SortedLinkedList.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="People.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PeopleType.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Album.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="AlbumType.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -54,6 +69,15 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="FC.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="PeopleType.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Album.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="AlbumType.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

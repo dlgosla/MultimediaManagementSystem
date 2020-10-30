@@ -2,11 +2,150 @@
 #include "ItemType.h"
 #include "SortedList.h"
 
+void Application::printAllEvent()
+{
+	/*
+	* pre: 이벤트가 존재해야함
+	* post: 존재하는 모든 이벤트와 거기 속하는 콘텐츠 출력
+	*/
+	eventList.ResetList();
+	Event e;
+	for (int i = 0; i < eventList.GetLength(); i++)
+	{
+
+		eventList.GetNextItem(e);
+		cout << "=======이벤트 " << e.getEventName() << "속 컨텐츠========" << endl;
+		e.printRecord(m_List);
+		cout << "=========================================" << endl;
+	}
+
+}
+
+
+int Application::deleteEvent()
+{
+	/*
+	* pre:이벤트 명이 이벤트 리스트에 없어야 함
+	* post: 사용자에게 이벤트명을 입력받아 하나의 이벤트 그룹을 삭제하고 성공시 1 리턴
+	*/
+	string eName;
+	Event e;
+
+	cout << "이벤트 명: ";
+	cin >> eName;
+
+	e.setRecord(eName);
+	eventList.Delete(e);
+
+	return 1;
+}
+
+int Application::addEvent()
+{
+	/*
+	* pre:이벤트 명이 이벤트 리스트에 없어야 함
+	* post: 한 이벤트를 저장할 이벤트 타입의 노드를 만들고 성공시 1 리턴
+	*/
+	string eName;
+	Event e;
+
+	cout << "이벤트 명: ";
+	cin >> eName;
+
+	e.setRecord(eName);
+	eventList.Add(e);
+
+	return 1;
+
+}
+int Application::AddContents()
+{
+	/*
+	컨텐츠를 입력받아서 마스터리스트, 이벤트리스트, FC리스트에 저장한다
+	precondition: primary key가 중복되면 안된다
+	postcondition: 추가하고 성공하면 1 실패하면 0을 반환한다
+	*/
+	if (m_List.IsFull())
+	{
+		cout << "꽉 찼습니다" << endl;
+		return 0;
+	}
+
+	ItemType item;
+	item.SetRecordFromKB(); //컨텐츠를 입력받아서
+	int result = m_List.Add(item);  //마스터 리스트에 컨텐츠를 추가
+	if (result == 0)
+		return 0;
+
+	//이벤트 리스트에 컨텐츠 추가
+	EventType eItem;
+	Event e;
+	eItem.SetRecord(item.GetName(), item.GetEvent()); //이벤트 타입에 컨텐츠 정보 추가
+	e.setRecord(item.GetEvent()); //이벤트에 컨텐츠 정보 추가
+
+	eventList.Add(e); //이벤트 리스트에 이벤트 추가
+
+	eventList.Get(e);
+	e.Add(eItem);
+	eventList.Replace(e); //이벤트 리스트 안의 이벤트의 컨텐츠 추가
+
+
+	//fc 리스트에 추가
+	string user;
+
+	while (true)
+	{
+		cout << "즐겨찾기로 추가하시겠습니까?(yes/no)" << endl;
+		cin >> user;
+
+		if (user == "yes")
+		{
+			FC temp;
+			temp.setRecord(item.GetName());
+			fc_list.Add(temp);
+			break;
+		}
+
+		else if (user == "no")
+		{
+			cout << "추가하지 않습니다" << endl;
+			break;
+		}
+		else
+		{
+			cout << "잘못된 입력입니다" << endl;
+		}
+	}
+	DisplayAllContents();
+	return 1;
+}
+
+
+void Application::FindNDisplayEvent() //이벤트 이름을 입력받아서 거기 소속된 콘텐츠의 자세한 정보를 출력
+{
+	string eName;
+	cout << "컨텐츠 정보를 볼 이벤트 명을 입력하세요: ";
+	cin >> eName;
+
+	Event temp;
+	temp.setRecord(eName);
+	eventList.Get(temp);
+	cout << "========이벤트 " << eName << "속 컨텐츠========" << endl;
+	temp.printRecord(m_List);
+	cout << "============================" << endl;
+}
+
+Application::Application()
+{
+	m_Command = 0;
+}
+Application::~Application() {}
+
 int Application::Add_FC() //콘텐츠를 선정하여 FC_list에 추가
 {
 	/*
 	* pre: m_List가 정의돼 있어야 한다. 이미 FC리스트에 저장돼 있는 컨텐츠를 입력하면 안된다.
-	*	전체 컨텐츠 목록중에 해당 FC가 있어야한다.
+	*	전체 컨텐츠 목록중에 해당 컨텐츠가 있어야한다.
 	* post: 일치하는 데이터를 찾고 성공하면 1 실패하면 0을 리턴
 	*/
 	ItemType item;
@@ -98,9 +237,9 @@ void Application::run1()
 
 	while (1) {
 		cout << "=======================" << endl;
-		cout << "1. 이벤트 메뉴" << endl;
+		cout << "1. 기본 메뉴" << endl;
 		cout << "2. FC 메뉴" << endl;
-		cout << "3. 일반 메뉴" << endl;
+		cout << "3. 이벤트 메뉴" << endl;
 		cout << "=========================" << endl;
 
 		int command;
@@ -109,17 +248,16 @@ void Application::run1()
 		switch (command)
 		{
 		case 1:
-			runEvent();
+			Run();
 			break;
 		case 2:
 			runFC();
 			break;
 		case 3:
-			Run();
+			runEvent();
 			break;
 		default:
 			return;
-			break;
 		}
 	}
 }
@@ -130,28 +268,28 @@ void Application::runEvent() {
 		cout << "=======================" << endl;
 		cout << "1. 이벤트 추가" << endl;
 		cout << "2. 이벤트 삭제" << endl;
-		cout << "3. 이벤트 retrieve" << endl;
-		cout << "4. 이벤트 출력" << endl;
+		cout << "3.	전체 이벤트 목록 보기" << endl;
+		cout << "4.	특정 이벤트 속 컨텐츠들 보기" << endl;
 		cout << "이외의 숫자:exit" << endl;
 		cout << "=========================" << endl;
 
 		int command;
 		cout << ">> ";
 		cin >> command;
-		switch (command)
+
+		switch(command)
 		{
 		case 1:
-			cout << "해당 이벤트에 들어갈 콘텐츠 추가" << endl;
-			event.Add();
+			addEvent();			
 			break;
 		case 2:
-			event.Delete();
+			deleteEvent();
 			break;
 		case 3:
-			event.Retrieve();
+			printAllEvent();
 			break;
 		case 4:
-			event.printRecord();
+			FindNDisplayEvent();
 			break;
 		default:
 			return;
@@ -296,7 +434,31 @@ int Application::DeleteContents()
 	*/
 	ItemType data;
 	data.SetNameFromKB();
-	return m_List.Delete(data);
+	m_List.Retrieve_SeqS(data);
+
+	EventType eItem;
+	eItem.SetName(data.GetName());
+
+	// 이벤트리스트에서 삭제
+	Event e;
+	e.setRecord(data.GetEvent());
+	eventList.Get(e);
+	e.Delete(eItem);
+	eventList.Replace(e);
+
+	if (e.getCountOfEvent() == 0)
+	{
+		eventList.Delete(e);
+	}
+
+	int result = m_List.Delete(data); //마스터리스트에서 삭제
+
+	//fc리스트에서 삭제
+	FC temp;
+	temp.setRecord(data.GetName());
+	fc_list.Delete(temp);
+
+	return result;
 }
 int Application::ReplaceContents()
 {
@@ -307,7 +469,25 @@ int Application::ReplaceContents()
 	ItemType data;
 	data.SetRecordFromKB();
 	cout << "=======================" << endl;
-	return m_List.Replace(data);
+	int result = m_List.Replace(data); //마스터리스트 대체
+
+	return result;
+
+	/*
+	//이벤트 리스트 대체
+	Event eTemp;
+	eTemp.setRecord(data.GetName());
+	eventList.Get(eTemp);
+	EventType eItem;
+	eItem.SetName(data.GetName());
+	eTemp.replace(eItem);
+
+	//FC리스트 대체
+	FC fcTemp;
+	fcTemp.setRecord(data.GetName());
+	fc_list.Replace(fcTemp);
+	*/
+	
 }
 
 void Application::MakeEmpty()
@@ -361,7 +541,6 @@ void Application::Run()
 			WriteDataToFile();
 			break;
 		case 11:
-			
 			break;
 		case 0:
 			return;
@@ -401,26 +580,7 @@ int Application::GetCommand()
 
 	return command;
 }
-int Application::AddContents()
-{
-	/*
-	precondition: primary key가 중복되면 안된다
-	postcondition: 추가하고 성공하면 1 실패하면 0을 반환한다
-	*/
-	if (m_List.IsFull())
-	{
-		cout << "꽉 찼습니다" << endl;
-		return 0;
-	}
 
-	ItemType item;
-	item.SetRecordFromKB();
-	m_List.Add(item);
-
-	DisplayAllContents();
-
-	return 1;
-}
 void Application::DisplayAllContents()
 {
 	/*
