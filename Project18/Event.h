@@ -19,6 +19,11 @@ public:
 	~Event();
 
 	/*
+	* post: 리스트 리턴
+	*/
+	UnsortedList<EventType> getList();
+
+	/*
 	* pre:countOfEvent가 정의 돼 있어야함
 	* post: countOfEvent 반환
 	*/
@@ -31,7 +36,7 @@ public:
 	void replace(EventType item);
 
 	/*
-	* 연산자 오버로딩 
+	* 연산자 오버로딩
 	* post: 값을 비교하고 값 크기에 따라 true나 false를 리턴
 	*/
 	bool operator>(Event item);

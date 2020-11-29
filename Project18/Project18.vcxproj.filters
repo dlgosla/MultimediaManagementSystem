@@ -71,6 +71,9 @@
     <ClCompile Include="FC.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="People.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="PeopleType.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>

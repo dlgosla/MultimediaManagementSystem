@@ -2,6 +2,11 @@
 
 Event::~Event() {}
 
+UnsortedList<EventType>  Event::getList()
+{
+	return contentsList;
+}
+
 int Event::getCountOfEvent()
 {
 	return countOfEvent;
@@ -57,7 +62,8 @@ int Event::Add(EventType e)
 int Event::Delete(EventType e)
 {
 	contentsList.Delete(e);
-	countOfEvent--;
+	if (countOfEvent > 0)
+		countOfEvent--;
 	return 1;
 }
 int Event::Retrieve(EventType e)

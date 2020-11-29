@@ -23,10 +23,10 @@ void FC::DisplayRecordOnScreen()
 {
 	cout << "ÄÜÅÙÃ÷ ÀÌ¸§: " << fileName << " ÀÌ ÄÜÅÙÃ÷¸¦ º» È½¼ö: " << countOfView << endl;
 }
-void FC::setRecord(string fileName, int countOfView )
+void FC::setRecord(string fileName, int countOfView)
 {
 	this->fileName = fileName;
-//	this->memo = memo;
+	//	this->memo = memo;
 	this->countOfView = countOfView;
 
 }
@@ -35,7 +35,6 @@ string FC::getFileName()
 	return fileName;
 }
 
-void FC::view() { 
+void FC::view() {
 	countOfView++;
 }
- 

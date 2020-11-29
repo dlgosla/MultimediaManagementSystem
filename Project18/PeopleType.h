@@ -9,13 +9,8 @@ using namespace std;
 class PeopleType {
 
 public:
-
-	PeopleType()
-	{
-		contentsName = ""; //콘텐츠 파일명
-		people = ""; //이벤트명
-	}
-	~PeopleType() {}
+	PeopleType();
+	~PeopleType();
 
 	/*
 	precondition: name이 정의돼 있어야 한다
@@ -47,17 +42,6 @@ public:
 	*/
 	void SetRecord(string cName, string people);
 
-	/*
-	precondition: contentsName이 정의돼 있어야한다
-	postcondition: contentsName을 출력한다
-	*/
-	void DisplaycontentsNameOnScreen();
-
-	/*
-	precondition: people이 정의돼 있어야한다
-	postcondition:  people을 출력한다
-	*/
-	void DisplayPeolpleOnScreen();
 
 	/*
 	precondition: name, kindOfContents, date, peoplem event, classification, memo가 정의돼 있어야한다
@@ -89,17 +73,6 @@ public:
 	*/
 	void SetRecordFromKB();
 
-	/*
-	precondition: fin이 정의돼 있어야한다
-	postcondition: 파일에서 읽어오고 성공하면 1을 리턴한다
-	*/
-	int ReadDataFromFile(ifstream& fin);// 콘텐츠정보를파일에서읽는함수
-
-	/*
-	precondition: fout이 정의돼 있어야 한다
-	postcondition: 각 변수들을 파일에 저장하고 성공하면 1을 리턴한다
-	*/
-	int WriteDataToFile(ofstream& fout);// 콘텐츠정보를파일로출력하는함수
 
 	/*
 	precondition: data의 name과 name이 일치하는 것이 있어야 한다

@@ -13,11 +13,6 @@ template <typename T>
 class SortedList
 {
 public:
-	
-	T* getList() {
-		return m_Array;
-	}
-	
 	/*
 		생성자
 	*/
@@ -34,10 +29,16 @@ public:
 	void DisplayRecord();
 
 	/*
+	* pre: m_List 리스트가 있어야한다
+	* post: 자세한 정보를 출력한다
+	*/
+	void DisplayRecord(SortedList<ItemType>& master);
+
+	/*
 	* pre: data와 일치하는 값이 m_Array에 있어야 한다
 	* post: 성공시 1 실패시 0반환
 	*/
-	int Retrieve_SeqS(T& data); 
+	int Retrieve_SeqS(T& data);
 
 	/*
 	* pre: m_Array가 정의돼 있어야 한다
@@ -128,6 +129,15 @@ void SortedList<T>::DisplayRecord()
 	}
 
 }
+template <typename T>
+void SortedList<T>::DisplayRecord(SortedList<ItemType>& master)
+{
+	for (int i = 0; i < m_Length; i++)
+	{
+		m_Array[i].DisplayRecordOnScreen(master);
+	}
+}
+
 
 template <typename T>
 int SortedList<T>::Retrieve_SeqS(T& data)
@@ -225,6 +235,7 @@ int SortedList<T>::Delete(T data)
 		m_Length--;	//아이템 개수를 하나 줄임
 		return 1;	//성공(1)을 리턴
 	}
+
 	return 0;	//Primary key일치하는 item을 찾지 못한다면 실패(0)을 리턴
 }
 
@@ -243,6 +254,7 @@ int SortedList<T>::Replace(T data)
 		m_Array[m_CurPointer] = tmp;
 		return 1;
 	}
+
 	return 0;
 }
 
@@ -350,7 +362,7 @@ int SortedList<T>::GetNextItem(T& data)
 	postcondition: data를 m_CurPointer위치에 저장하고 m_CurPointer를 반환, 실패시 -1반환
 	*/
 	m_CurPointer++;
-	if (m_CurPointer == MAXSIZE) {
+	if (m_CurPointer == m_Length) {
 		return -1;
 	}
 	data = m_Array[m_CurPointer];

@@ -9,8 +9,6 @@ using namespace std;
 class EventType {
 
 public:
-
-
 	EventType()
 	{
 		name = ""; //콘텐츠 파일명
@@ -46,7 +44,7 @@ public:
 	precondition: name, kindOfContents, date, peoplem event가 정의 돼 있어야 한다
 	postcondition: 각 변수를 입력받은 값으로 바꾼다
 	*/
-	void SetRecord(string name, string event);
+	void SetRecord(string name, string event = "");
 
 	/*
 	precondition: name이 정의돼 있어야한다

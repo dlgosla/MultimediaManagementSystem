@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include<iostream>
 #include "SortedList.h"
 #include "PeopleType.h"
@@ -17,6 +16,27 @@ private:
 	UnsortedList<PeopleType> contentsList; // 특정 사람이 포함된 그룹들을 저장
 
 public:
+	/*
+	* pre: 각 멤버변수가 정의돼 있어야함
+	* post: 리스트 반환
+	*/
+	UnsortedList<PeopleType> getList();
+	/*
+	* pre: data가 정의돼 있어야함
+	* post: 둘을 비교해서 less grater equal을 따짐
+	*/
+	RelationType CompareByName(const People& data);
+	/*
+	* pre: 각 멤버변수가 정의돼 있어야함
+	* post: 컨텐츠에 대한 간단한정보출력
+	*/
+	void printRecord();
+	/*
+	* pre: 각 멤버변수가 정의돼 있어야함
+	* post: 이 객체에대한 간단한정보출력
+	*/
+	void DisplayRecordOnScreen();
+
 	People();
 	~People();
 
@@ -51,7 +71,7 @@ public:
 	/*
 	* post: 각 파라미터의 값을 멤버 변수에 저장함
 	*/
-	void setRecord(string e_name, string desc = "", int count = 0);
+	void setRecord(string e_name, int count = 0);
 	/*
 	* pre: 각 멤버변수가 정의돼 있어야함
 	* post: 정보가 저장됨

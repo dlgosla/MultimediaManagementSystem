@@ -1,4 +1,34 @@
 #include "ItemType.h"
+bool ItemType::operator>(ItemType item)
+{
+	return (this->GetName() > item.GetName());
+}	//return 1 if this.id > data.id, 0 if not.
+
+// Compare two item types by item id.
+bool ItemType::operator==(ItemType item)
+{
+	return (this->GetName() == item.GetName());
+}	//return 1 if this.id == data.id, 0 if not.
+
+
+/*
+* 积己磊
+*/
+
+ItemType::ItemType()
+{
+	name = ""; //能刨明 颇老疙
+	kindOfContents = -1; //能刨明 辆幅
+	date = ""; //积己朝楼客 矫埃
+	people = ""; //能刨明俊 器窃等 荤恩
+	event = ""; //捞亥飘疙
+}
+
+/*
+	家戈磊
+*/
+
+ItemType::~ItemType() {}
 
 
 string ItemType::GetName()
@@ -9,6 +39,7 @@ string ItemType::GetName()
 	*/
 	return name;
 }
+
 int ItemType::GetkindOfContents()
 {
 	/*
@@ -198,8 +229,8 @@ void ItemType::DisplayRecordOnScreen()
 	*/
 	cout << "能刨明 颇老疙: " << name << " 能刨明 辆幅: " << kindOfContents
 		<< " 积己朝楼客 矫埃: " << date << " 能刨明俊 器窃等 荤恩: " << people
-		<< " 捞亥飘疙: " << event << " 能刨明 备盒: "<< classification 
-		<<" 能刨明 郴侩: "<< memo <<endl;
+		<< " 捞亥飘疙: " << event << " 能刨明 备盒: " << classification
+		<< " 能刨明 郴侩: " << memo << endl;
 }
 void ItemType::SetNameFromKB()
 {
