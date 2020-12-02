@@ -36,9 +36,6 @@
     <ClInclude Include="UnsortedList.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SortedLinkedList.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="People.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -49,6 +46,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="AlbumType.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SortedLinkedList.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BinarySearchTree.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

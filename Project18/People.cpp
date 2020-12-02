@@ -92,7 +92,7 @@ void People::setRecord(string name, int len)
 * post: 정보가 저장됨
 */
 
-void People::printRecord(SortedList<ItemType>& master)
+void People::printRecord(BinarySearchTree<ItemType>& master)
 {
 	contentsList.DisplayRecord(master);
 }

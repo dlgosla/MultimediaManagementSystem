@@ -3,6 +3,7 @@
 #include <fstream>	
 #include <string>
 #include "ItemType.h"
+#include "BinarySearchTree.h"
 using namespace std;
 
 #include "ItemType.h"
@@ -32,7 +33,7 @@ public:
 	* pre: m_List 리스트가 있어야한다
 	* post: 자세한 정보를 출력한다
 	*/
-	void DisplayRecord(SortedList<ItemType>& master);
+	void DisplayRecord(BinarySearchTree<ItemType>& master);
 
 	/*
 	* pre: data와 일치하는 값이 m_Array에 있어야 한다
@@ -130,7 +131,7 @@ void SortedList<T>::DisplayRecord()
 
 }
 template <typename T>
-void SortedList<T>::DisplayRecord(SortedList<ItemType>& master)
+void SortedList<T>::DisplayRecord(BinarySearchTree<ItemType>& master)
 {
 	for (int i = 0; i < m_Length; i++)
 	{

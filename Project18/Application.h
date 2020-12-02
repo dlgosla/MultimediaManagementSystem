@@ -9,7 +9,7 @@
 #include "FC.h"
 #include "Album.h"
 #include "People.h"
-#include <vector>
+#include "BinarySearchTree.h"
 
 #define FILENAMESIZE 1024
 
@@ -155,17 +155,11 @@ public:
 	* post: 존재하는 모든 이벤트와 거기 속하는 콘텐츠 출력
 	*/
 	void DisplayAllContents();
-	int OpenInFile(char* fileName);
-	int OpenOutFile(char* fileName);
-	int ReadDataFromFile();
-	int WriteDataToFile();
 	int DeleteContents();
-	int ReplaceContents();
 	void MakeEmpty();
 
 	//int SearchByName();
-	int replaceItem();
-	int SearchAllItmeByPeople(ItemType& data);
+
 	int SearchByName_SequenS();
 
 	int SearchByPeople(); //사람으로 찾음
@@ -200,7 +194,6 @@ public:
 	* pre: fc리스트가 정의돼 있어야한다
 	* post: fc_list의 자세한 정보를 화면에 출력한다
 	*/
-	void Rearrange_FC(); //키보드로부터 조건을 입력받아서 FC의 보는 순서(들어온 순, 이름 순, 자주보는 순, 등)를 바꾼다.
 
 	/*
 	* fc 관련 메뉴창
@@ -216,12 +209,12 @@ public:
 private:
 	ifstream m_InFile;///< input file descriptor. 
 	ofstream m_OutFile;///< output file descriptor.
-	SortedList<ItemType> m_List;///< item list. 마스터리스트
+	BinarySearchTree<ItemType> m_List;///< item list. 마스터리스트
 	int m_Command;///< current command number
 
+	
 	SortedLinkedList<Event> eventList; //각 이벤트 마다 리스트로 저장
 	SortedList<FC> fc_videoList; // video fc만 따로 저장하는 리스트
-//	UnsortedList<FC> unsortedFC; //들어온 순서대로 저장되는 fc
 	SortedList<FC> fc_picList; //사진 fc만따로 저장하는 리스트
 	SortedList<FC> fc_list; //fc 저장하는 리스트
 

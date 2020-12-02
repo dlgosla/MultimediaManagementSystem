@@ -59,12 +59,13 @@ void PeopleType::SetRecord(string Name, string people)
 precondition: name, kindOfContents, date, peoplem people, classification, memo가 정의돼 있어야한다
 postcondition: 각 요소의 자세한 정보를 출력한다
 */
-void PeopleType::DisplayRecordOnScreen(SortedList<ItemType>& master)
+void PeopleType::DisplayRecordOnScreen(BinarySearchTree<ItemType>& master)
 {
-	master.ResetList();
+	//master.ResetList();
 	ItemType item;
 	item.SetName(contentsName);
-	master.Retrieve_SeqS(item);
+	bool found = false;
+	master.RetrieveItem(item,found);
 	item.DisplayRecordOnScreen();
 }
 

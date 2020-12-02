@@ -39,7 +39,7 @@ public:
 	precondition: m_Array가 정의돼 있어야함
 	postcondition: 자세한 정보 출력
 */
-	void DisplayRecord(SortedList<ItemType>& master);
+	void DisplayRecord(BinarySearchTree<ItemType>& master);
 	/*
 		precondition: m_Array가 정의돼있어야한다
 		postcondition: m_Length를 반환한다
@@ -138,7 +138,7 @@ void UnsortedList<T>::DisplayRecord()
 }
 
 template<typename T>
-void UnsortedList<T>::DisplayRecord(SortedList<ItemType>& master)
+void UnsortedList<T>::DisplayRecord(BinarySearchTree<ItemType>& master)
 {
 	for (int i = 0; i < m_Length; i++)
 	{

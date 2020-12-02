@@ -78,7 +78,7 @@ public:
 	/*
 	* 모든 정보를 보여줌
 	*/
-	void printRecord(SortedList<ItemType>& master);
+	void printRecord(BinarySearchTree<ItemType>& master);
 
 
 	/*

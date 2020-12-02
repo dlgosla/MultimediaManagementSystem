@@ -8,16 +8,17 @@ private:
 	int countOfView; //이 컨텐츠를 본 횟수
 
 public:
-	void DisplayRecordOnScreen(SortedList<ItemType>& master)
+	void DisplayRecordOnScreen(BinarySearchTree<ItemType>& master)
 	{
 		/*
 		precondition: name, kindOfContents, date, peoplem event, classification, memo가 정의돼 있어야한다
 		postcondition: 각 요소를 출력한다
 		*/
-		master.ResetList();
+		//master.ResetList();
 		ItemType item;
 		item.SetName(fileName);
-		master.Retrieve_SeqS(item);
+		bool found = false;
+		master.RetrieveItem(item,found);
 		item.DisplayRecordOnScreen();
 	}
 

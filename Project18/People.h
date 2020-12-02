@@ -76,7 +76,7 @@ public:
 	* pre: 각 멤버변수가 정의돼 있어야함
 	* post: 정보가 저장됨
 	*/
-	void printRecord(SortedList<ItemType>& master);
+	void printRecord(BinarySearchTree<ItemType>& master);
 	/*
 	* 모든 정보를 보여줌
 	*/

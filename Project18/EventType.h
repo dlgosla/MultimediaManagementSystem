@@ -62,7 +62,7 @@ public:
 	precondition: name, kindOfContents, date, peoplem event, classification, memo가 정의돼 있어야한다
 	postcondition: 각 요소를 출력한다
 	*/
-	void DisplayRecordOnScreen(SortedList<ItemType>& master);
+	void DisplayRecordOnScreen(BinarySearchTree<ItemType>& master);
 
 	/*
 	precondition: name, kindOfContents, date, peoplem event, classification, memo가 정의돼 있어야한다

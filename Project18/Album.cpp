@@ -84,7 +84,7 @@ void Album::setRecord(string e_name, string desc, int count)
 * pre: 각 멤버변수가 정의돼 있어야함
 * post: 자세한 정보를 출력
 */
-void Album::printRecord(SortedList<ItemType>& master) {
+void Album::printRecord(BinarySearchTree<ItemType>& master) {
 	contentsList.DisplayRecord(master);
 }
 

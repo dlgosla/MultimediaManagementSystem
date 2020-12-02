@@ -142,6 +142,7 @@
     <ClInclude Include="Album.h" />
     <ClInclude Include="AlbumType.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="BinarySearchTree.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventType.h" />
     <ClInclude Include="FC.h" />

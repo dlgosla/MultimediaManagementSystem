@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ItemType.h"
 #include "SortedList.h"
+#include <vector>
 
 void Application::Display_Detail_Pic_FC() {
 	fc_picList.DisplayRecord(m_List);
@@ -270,6 +271,7 @@ void Application::deleteContentsInAlbum()
 		cout << "======= " << inputAlbum << " 에서 컨텐츠를 삭제합니다. ====" << endl;
 		//album.DisplayRecordOnScreen();
 		album.printRecord(); //컨텐츠
+		album.printRecord(); //컨텐츠
 		cout << "========================" << endl;
 		item.SetNameFromKB(); //앨범내에서 삭제하고 싶은 컨텐츠이름
 
@@ -308,7 +310,7 @@ void Application::addContentsInAlbum() {
 	albumList.Retrieve_BinaryS(aItem); //입력받은 앨범이름과 같은 앨범을 찾아 aItem에 불러옴
 
 	cout << "앨범에 추가하고 싶은 컨텐츠 선택" << endl;
-	m_List.DisplayRecord(); //있는 컨텐츠 출력
+	m_List.PrintTree(cout); //있는 컨텐츠 출력
 
 	cout << "============================" << endl;
 
@@ -319,8 +321,10 @@ void Application::addContentsInAlbum() {
 		item.SetAlbum(inputName); //앨범종류 등록
 
 		ItemType temp;
+		bool found = false;
 		temp.SetName(item.GetName()); //마스터리스트 검색을 위해 temp객체 생성
-		if (m_List.Retrieve_BinaryS(temp) == 0) { //마스터리스트에 컨텐츠가 없으면
+		m_List.RetrieveItem(temp, found);
+		if ( found == false) { //마스터리스트에 컨텐츠가 없으면
 			cout << "없는 컨텐츠 입니다" << endl;
 		}
 		else { // 있으면
@@ -543,7 +547,9 @@ int Application::Add_FC() //콘텐츠를 선정하여 FC_list에 추가
 	ItemType item;
 
 	item.SetNameFromKB();	//name를 입력받는다
-	if (m_List.Retrieve_BinaryS(item))	//이진탐색에 성공했다면
+	bool found = false;
+	m_List.RetrieveItem(item, found);
+	if (found)	//이진탐색에 성공했다면
 	{
 		cout << "<============I FOUND ITEM !==========>" << endl;
 		FC temp;
@@ -728,7 +734,9 @@ int Application::SearchByName_BinaryS()
 	ItemType item;
 
 	item.SetNameFromKB();	//name를 입력받는다
-	if (m_List.Retrieve_BinaryS(item))	//이진탐색에 성공했다면
+	bool found = false;
+	m_List.RetrieveItem(item, found);
+	if (found)	//이진탐색에 성공했다면
 	{
 		cout << "<============I FOUND ITEM !==========>" << endl;
 		item.DisplayRecordOnScreen();
@@ -750,7 +758,9 @@ int Application::SearchByName_SequenS()
 	ItemType data;
 	data.SetNameFromKB();
 
-	if (m_List.Retrieve_SeqS(data))
+	bool found = false;
+	m_List.RetrieveItem(data, found);
+	if (found)
 	{
 		data.DisplayRecordOnScreen();
 		return 1;
@@ -759,58 +769,7 @@ int Application::SearchByName_SequenS()
 	return 0;
 }
 
-int Application::SearchAllItmeByPeople(ItemType& data)
-{
-	/*
-	* pre: 딱히 없음
-	* post: 찾으면 1 못찾으면 0 반환
-	*/
-	ItemType tmp;
-	int result = 0;
 
-	m_List.ResetList();//iterator 초기화
-	while (m_List.GetNextItem(tmp) != -1) //리스트의 마지막까지 반복
-	{
-		if (tmp.GetPeople().find(data.GetPeople()) != -1) //만약 해당 리스트의 이름에 inData의 이름이 존재하면
-		{
-			if (result == 0) //처음 찾는 경우라면
-				cout << "<============I FOUND ITEM !==========>" << endl;
-			tmp.DisplayRecordOnScreen();
-			result = 1;	//성공(1)
-		}
-	}
-	if (result)	//발견한 경우
-		cout << "<====================================>" << endl;
-	else	//발견 못하는 경우
-		cout << "<========I CAN'T FIND ITEM !==========>" << endl;
-	return result;
-}
-
-int Application::SearchByPeople()
-{
-	/*
-	* pre: 딱히 없음
-	* post: 입력된 이름이 포함된 콘텐츠를 모두 찾고 성공 1 실패 0 반환
-	*/
-	ItemType item;
-	item.SetPeopleFromKB(); //people을 입력받는다.
-
-	if (SearchAllItmeByPeople(item)) //0이 아니면(찾으면)
-		return 1;	//성공(1)을 리턴
-	return 0;	//실패(0)을 리턴
-}
-
-int Application::replaceItem()
-{
-	ItemType item;
-	item.SetRecordFromKB();
-
-	m_List.Replace(item);
-	cout << "=======================";
-	DisplayAllContents();
-	cout << "=======================";
-	return 0;
-}
 
 
 int Application::DeleteContents()
@@ -821,7 +780,9 @@ int Application::DeleteContents()
 	*/
 	ItemType data;
 	data.SetNameFromKB();
-	if (m_List.Retrieve_SeqS(data) == 0)  //삭제할 데이터를 찾는다
+	bool found = false;
+	m_List.RetrieveItem(data, found);
+	if (found == false)  //삭제할 데이터를 찾는다
 	{
 		return 0;
 	}
@@ -872,39 +833,11 @@ int Application::DeleteContents()
 		albumList.Replace(a); //업데이트
 	}
 
-	int result = m_List.Delete(data); //마스터리스트에서 삭제
-	m_List.DisplayRecord();
+	int result = m_List.DeleteItem(data); //마스터리스트에서 삭제
+	m_List.PrintTree(cout);
 	return result;
 }
-int Application::ReplaceContents()
-{
-	/*
-		precondition: m_List가 정의돼 있어야 한다, m_List에 data와 primary key가 일치하는 값이 있어야 한다
-		postcondition: primary key와 일치하는 레코드를 data의 값으로 대체하고 성공시 1 실패시 0을 반환
-	*/
-	ItemType data;
-	data.SetRecordFromKB();
-	cout << "=======================" << endl;
-	int result = m_List.Replace(data); //마스터리스트 대체
 
-	return result;
-
-
-	//이벤트 리스트 대체
-	Event eTemp;
-	eTemp.setRecord(data.GetName());
-	eventList.Get(eTemp);
-	EventType eItem;
-	eItem.SetName(data.GetName());
-	eTemp.replace(eItem);
-
-	//FC리스트 대체
-	FC fcTemp;
-	fcTemp.setRecord(data.GetName());
-	fc_list.Replace(fcTemp);
-
-
-}
 
 void Application::MakeEmpty()
 {
@@ -932,29 +865,16 @@ void Application::Run()
 		case 2:		//delete
 			DeleteContents();
 			break;
-		case 3:		//replace
-			ReplaceContents();
-			break;
-		case 4:		//search by name.
+
+		case 3:		//search by name.
 			SearchByName_SequenS();
 			break;
-		case 5:	//search by binary search.
-			SearchByName_BinaryS();
-			break;
-		case 6:		//search by people.
-			SearchByPeople();
-			break;
-		case 7:		// display all the records in list on screen.
+
+		case 4:		// display all the records in list on screen.
 			DisplayAllContents();
 			break;
-		case 8:		// make empty list.
+		case 5:		// make empty list.
 			m_List.MakeEmpty();
-			break;
-		case 9:		// load list data from a file.
-			ReadDataFromFile();
-			break;
-		case 10:		// save list data into a file.
-			WriteDataToFile();
 			break;
 		case 0:
 			return;
@@ -976,16 +896,9 @@ int Application::GetCommand()
 	cout << "\t---ID -- Command ----- " << endl;
 	cout << "\t   1 : 콘텐츠 추가" << endl;
 	cout << "\t   2 : 콘텐츠 삭제" << endl;
-	cout << "\t   3 : 콘텐츠 파일명을 입력받아 새 정보로 치환 (replace)" << endl;
-	cout << "\t   4 : 콘텐츠 파일명으로 콘텐츠 찾아 정보 출력" << endl;
-	cout << "\t   5 : 콘텐츠 파일명으로 콘텐츠 찾아 정보 출력(이진탐색)" << endl;
-	cout << "\t   6 : 특정 인물이 포함된 콘텐츠 찾기" << endl;
-	cout << "\t   7 : 모든 콘텐츠 정보 출력" << endl;
-	cout << "\t   8 : 빈 리스트로 만들기" << endl;
-	cout << "\t   9 : 파일로 부터 읽어오기" << endl;
-	cout << "\t   10 : 파일에 쓰기" << endl;
-	//	cout << "\t   11 : 텍스트 파일의 내용을 새 정보로 바꾸기" << endl; 
-		//파일명을 입력받아 해당 콘텐츠의 정보를 키보드로 부터 입력받은 새 정보로 치환
+	cout << "\t   3 : 콘텐츠 파일명으로 콘텐츠 찾아 정보 출력" << endl;
+	cout << "\t   4 : 모든 콘텐츠 정보 출력" << endl;
+	cout << "\t   5 : 빈 리스트로 만들기" << endl;
 	cout << "\t   0 : Quit" << endl;
 
 	cout << endl << "\t Choose a Command--> ";
@@ -1001,95 +914,6 @@ void Application::DisplayAllContents()
 	precondition: m_List가 정의돼 있어야한다
 	postcondition: m_List의 레코드들을 전부 보여준다
 	*/
-	ItemType data;
-	int len = m_List.GetLength();
-	m_List.ResetList();
-	for (int i = 0; i < len; i++)
-	{
-		m_List.GetNextItem(data);
-		data.DisplayRecordOnScreen();
-	}
+	m_List.PrintTree(cout);
 }
-int Application::OpenInFile(char* fileName)
-{
-	/*
-	precondition: fileName의 파일이 존재해야한다
-	postcondition: 파일을 열었으면 1 실패했으면 0을 반환
-	*/
-	m_InFile.open(fileName);
 
-	if (!m_InFile)	return 0;
-	else	return 1;
-}
-int Application::OpenOutFile(char* fileName)
-{
-	/*
-	precondition: fileName의 파일이 존재해야한다
-	postcondition: 파일을 열었으면 1 실패했으면 0을 반환
-	*/
-	m_OutFile.open(fileName);
-	if (!m_OutFile) return 0;
-	return 1;
-}
-int Application::ReadDataFromFile()
-{
-	/*
-	precondition: m_InFile이 정의돼 있어야 한다. filename과 일치하는 파일이 있어야 한다
-	postcondition: 파일에서 데이터를 읽고 성공하면 1 실패하면 0을 반환
-	파일명을 입력받아 해당 콘텐츠의 모든 정보를 출력
-	*/
-	int index = 0;
-	ItemType data;
-
-	char filename[FILENAMESIZE];
-	cout << "\n\tEnter Input file Name : ";
-	cin >> filename;
-
-	if (!OpenInFile(filename))
-		return 0;
-
-	while (!m_InFile.eof()) {
-		data.ReadDataFromFile(m_InFile);
-		if (m_InFile.eof()) break;
-		m_List.Add(data);
-	}
-
-	m_InFile.close();
-
-	cout << "===================" << endl;
-	DisplayAllContents();
-	cout << "===========================" << endl;
-
-	return 1;
-}
-int Application::WriteDataToFile()
-{
-	/*
-	precondition: m_OutFile이 정의돼 있어야 한다.
-	postcondition: 파일에 저장하고 성공하면 1 실패하면 0을 반환
-	*/
-	ItemType data;
-
-	char filename[FILENAMESIZE];
-	cout << "\n\tEnter Output file Name : ";
-	cin >> filename;
-
-	if (!OpenOutFile(filename))
-		return 0;
-
-
-	m_List.ResetList();
-
-	int length = m_List.GetLength();
-	int curIndex = m_List.GetNextItem(data);
-	while (curIndex < length && curIndex != -1)
-	{
-		data.WriteDataToFile(m_OutFile);
-		curIndex = m_List.GetNextItem(data);
-	}
-
-
-	m_OutFile.close();
-
-	return 1;
-}

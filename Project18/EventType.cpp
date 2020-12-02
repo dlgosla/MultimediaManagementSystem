@@ -65,16 +65,17 @@ void EventType::DisplayEventOnScreen()
 	cout << "이벤트명: " << event << endl;
 }
 
-void EventType::DisplayRecordOnScreen(SortedList<ItemType>& master)
+void EventType::DisplayRecordOnScreen(BinarySearchTree<ItemType>& master)
 {
 	/*
 	precondition: name, kindOfContents, date, peoplem event, classification, memo가 정의돼 있어야한다
 	postcondition: 각 요소를 출력한다
 	*/
-	master.ResetList();
+	//master.ResetList();
 	ItemType item;
 	item.SetName(name);
-	master.Retrieve_SeqS(item);
+	bool found = false;
+	master.RetrieveItem(item,found);
 	item.DisplayRecordOnScreen();
 }
 

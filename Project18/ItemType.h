@@ -2,6 +2,7 @@
 #include<iostream>
 #include<string>
 #include<fstream>
+#include "BinarySearchTree.h"
 using namespace std;
 
 enum RelationType { LESS, GREATER, EQUAL };
@@ -15,6 +16,18 @@ public:
 	* post: 값을 비교하고 값 크기에 따라 true나 false를 리턴
 	*/
 	bool operator>(ItemType item);
+
+	friend ostream& operator << (ostream& out, ItemType& item)
+	{
+		out << "콘텐츠 파일명: " << item.GetName() << " 콘텐츠 종류: " << item.GetClassification()
+			<< " 생성날짜와 시간: " << item.GetDate() << " 콘텐츠에 포함된 사람: " << item.GetPeople()
+			<< " 이벤트명: " << item.GetEvent() << " 콘텐츠 구분: " << item.GetkindOfContents()
+			<< " 콘텐츠 내용: " << item.GetMemo() << endl;
+
+		return out;
+	}
+
+	bool operator<(ItemType item);
 
 	/*
 	* post: 두 값의 key값이 같으면 true 아니면 false를 리턴

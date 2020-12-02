@@ -45,7 +45,7 @@ void Event::setRecord(string e_name, string desc, int count)
 	description = desc;
 	countOfEvent = count;
 }
-void Event::printRecord(SortedList<ItemType>& master)
+void Event::printRecord(BinarySearchTree<ItemType>& master)
 {
 
 	contentsList.DisplayRecord(master);

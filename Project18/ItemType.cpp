@@ -4,7 +4,14 @@ bool ItemType::operator>(ItemType item)
 	return (this->GetName() > item.GetName());
 }	//return 1 if this.id > data.id, 0 if not.
 
+
+bool ItemType::operator<(ItemType item)
+{
+	return (this->GetName() < item.GetName());
+}
+
 // Compare two item types by item id.
+
 bool ItemType::operator==(ItemType item)
 {
 	return (this->GetName() == item.GetName());

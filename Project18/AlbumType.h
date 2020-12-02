@@ -69,7 +69,7 @@ public:
 	* pre: m_List리스트가 존재해야한다
 	postcondition: 컨텐츠에 곤한 자세한 요소 출력
 	*/
-	void DisplayRecordOnScreen(SortedList<ItemType>& master);
+	void DisplayRecordOnScreen(BinarySearchTree<ItemType>& master);
 
 	/*
 	postcondition: 각 요소를 출력한다
